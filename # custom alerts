@@ -1,0 +1,7 @@
+# lab alerts
+usually non-standard, received from lab tests, weekly
+
+Data ingestion teams reads lab data. 
+Most data filtered through custom sql, but some wants all lab tests, and added to alert. tested with jupyter notebook or snowflake
+
+Some customers want to be alerted on lab data, want data if they get lab test
