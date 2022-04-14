@@ -3,4 +3,5 @@
 - 1 family leave day
 
 # 2022
-(min 20, max 25)
+(min 20)
+- 4, Feb 12, pto

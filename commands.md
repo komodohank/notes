@@ -5,14 +5,25 @@ sc
 ###
 sc.addPyFile('s3://kh-pulse-prod/lib/lynx.zip')
 ###
+import datetime
+import argparse
 from types import SimpleNamespace
+
+from lynx.lib import yaml_parser
+from lynx.lib.spark_sql_utils import create_spark_hive_session
+from lynx.lib.yaml_parser_utils import get_pulse_alert
+from lynx.lib import yaml_parser as yaml
+from lynx.lib.post_execute_utils import post_execute_transformation
+from lynx.lib.alert_pipeline_utils import end_of_pipeline_snowflake_ops, start_of_pipeline_snowflake_ops
 args = SimpleNamespace(
                         output_bucket_name= 'pulse.dev',
                         bucket_name = 'pulse.dev',
                         env = 'dev',
                         config = 's3://pulse-scripts/airflow/test/smoke_test.yaml', # this is the yaml file that defines an alert.
                         run_date = datetime.datetime.strptime('20211126', '%Y%m%d').date(),
-                        disable_enrichment = True
+                        disable_enrichment = True,
+                        snowflake_persist = False,
+                        disable_snowflake_persist = True
                       )
 # from alert_runner_emr.py
 print("Starting Pulse Alert Runner\n" + '-' * 75 + '\n')
@@ -43,7 +54,6 @@ alert_therapy.save_output(results, delimiter=args_dict["output_csv_delimiter"])
 print("Alert Runner Successful!" + '-' * 75 + '\n')
 ```
 
-
 # stop jupyter notebook with screen
 screen -ls
 screen -X -S [session # you want to kill] quit
@@ -58,22 +68,42 @@ save to s3
 update paths in test suite gen script
 run the ge validation python script in jupyter
 
+`git show --pretty="" --name-only`
 
 # creating ge suite
-
 ```python
-from lynx.lib.test.great_expectations.ge_generator import generate_ge_suite
-
-# The prod global_defaults.yaml is recommended, and will be used by default
-global_defaults_s3_path = 's3://pulse-prod/configs/YAML/global_defaults.yaml'
-
-env = 'dev'
+sc
+####
+sc.addPyFile('s3://kh-pulse-prod/lib/lynx.zip')
 alert_yaml = 's3://pulse.dev/hankcorner/Alexion_aHUS_Ultomiris_continuous_therapy_combined_alert.yaml'
 
 # Generate suite
-generate_ge_suite(spark, 
-                  env,
-                  alert_yaml, 
-                  replace_existing=True, 
-                  sample_data_from_env='prod')
-'''
+from lynx.lib.test.great_expectations.ge_generator import generate_ge_suite
+
+generate_ge_suite(
+    spark_session=spark,
+    create_suite_in_env='dev',
+    yaml_config=alert_yaml,
+    replace_existing=True,
+    build_data_docs=False,
+    sample_data_from_env='dev'
+)
+```
+
+# creating zip files
+```bash 
+zip -r9 ../lynx.zip lynx -x "*.pyc" __init__.py version requirements.txt MANIFEST.in Makefile README.md setup.py setup.cfg
+aws s3 cp ../lynx.zip s3://kh-pulse-dev/lib/hank-lynx.zip
+```     
+
+# update enrichment scripts (one script)
+```bash
+aws s3 cp scripts/configs/ALN/TTR-2-Continuous-Therapy/enrichment_config.yaml s3://pulse.dev/configs/ALN/TTR-2-Continuous-Therapy/enrichment_config.yaml
+aws s3 cp scripts/emr/livy/ALN_TTR/Alnylam_TTR_Amyloidosis_Continuous_Therapy.yaml s3://pulse.dev/configs/manual/ALN_TTR/
+```
+
+# check airflow inst and scheduler
+```bash
+kubectl get pods -n airflow-pulse-dev --context=dev-eks1
+kubectl logs -f -n airflow-pulse-dev --context=dev-eks1
+```

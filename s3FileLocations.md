@@ -1,1 +1,0 @@
-https://clips.twitch.tv/BlazingGoodOrangeTF2John-z98DZ2pSp7Y2l-0Z
