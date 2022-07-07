@@ -1,6 +1,43 @@
 # open search query
 application_id: application_1642788023961_0646 and driver: true and file_name:stdout 
 
+# migrating to ucc
+* set these:
+  ```yaml
+  use_ucc: true
+  use_subset_enrichment: false
+  use_sql: true
+  ```
+* add in rx, px, dx codes. these are separate, top level items. UCC uses them to filter codes, determined by the filter setting
+  * if there are existing code list keys in all caps, keep them. e.g. keep `DX_CODES` item
+  * for each code item, there needs to be a upper case code item too. the converse is true too.
+* add product or regimen or subtype mapping
+  * if there's a separate mapping yaml file, keep it
+* add `claims_enrichment` elements
+  * if you're using codes from BRD, make sure you dedupe them first.
+  * look at the aggregation types in enrichment yaml. in `function_column_mapping`
+  * add quotes to all codes that have leading zeros. e.g. 0041234023 > '0041234023'
+  * be careful when migrating codes. they can be overlap with trigger codes
+* change `output_columns_map` to new format
+  * add enrichment code columns to columns map
+* remove claims path s3 URIs
+* remove PreSupplement step;
+* remove `codes:` in enrichment_config, as they're not used in UCC
+  * instead, set it to `default: []`
+* before running DAG, check the dag code to see if reads the right script path
+  * if the dag only looks at pulse-scripts, then update dag to use env vars
+* make these changes in the dag
+  * remove enrichment task in dag.
+  * remove `--disable_enrichment` args in the alert task
+  * reduce amount of max executors to 5
+* update python or yaml files in s3
+  * this is for dev only
+  * its a reminder to update your yaml or python files after making changes
+* ask CX if there are extra columns in the BRD that should not be in the alert.
+  * sometimes they add cols that should be deleted
+  * also check that BRD has most recent codes
+* delete mx and rx subset tasks in subset dag
+
 # DAG Note
 * airflow pulls github for DAG changes
 * `depends_on_pastc` in dag config: current dag run depends on successful past dag runs. mark dags as successful if you want to run current dag with current run date
@@ -10,7 +47,13 @@ application_id: application_1642788023961_0646 and driver: true and file_name:st
 * make sure that all claims in past 8 weeks are unique.
 * can get empty file errors if running alert with only 2-4 weeks worth of claims data, esp if they are all ord.
 	means that pulse already saw those old claims, and no new claims came in, so file might be empty
-
+* if dag doesn't work, try these things:
+	* reapply a3s
+	* make sure its reading from right branch
+	* check yaml file in s3 AND the file path in airflow are right
+	* check zip file is correct
+	* check any hardcoded paths in the DAG code
+	
 
 # airflow docs
 `pip3 install a3scli  -i https://nexus3.khinternal.net/repository/pypi-all/simple --upgrade`

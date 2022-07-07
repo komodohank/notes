@@ -4,4 +4,6 @@
 
 # 2022
 (min 20)
-- 4, Feb 12, pto
+- 4, Feb 12
+- 1, May 20th
+- 5, July 18th

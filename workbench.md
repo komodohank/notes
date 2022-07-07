@@ -1,26 +1,8 @@
-# Themes for green new york
-* what is building public renewables, and how is it better than ConEd? Relate it to BRPA bill, DSA slate of candidates that support it
-* How much money does ConEd/Big Oil Energy companies give to ny politicians? Relate it to our grassroots campaigns in ny
-* How did we stop the Astoria peaker plant? Relate it to our organizing skills, direct action, and protestors
+```yaml
+PX_CODES: &PX_CODES ['A9597', 'A9580', 'A9552', 'A9515', 'A9595', 'A9588', 'J9218']
 
+DX_CODES: &PX_CODES ['Z8546', 'D400', 'R972', 'R9720', 'C61', 'R9721']
 
-All of these topics overlap, and we can all connect them to 
-* BRPA and the Democratic Power Act
-* Our grassroots, small donations, socialist candidates, and their platforms
-* Results that we have delivered, such cancelling the astoria plant, or direct action, like on 3rd Ave
-
-Goals
-* Describe specific policies in Green New York
-* Show concrete actions or bills that can forward green new york
-* show how DSA is at the forfront of the movement
-* Show our candidate slate, their platform, and how they will push GNY through
-
-Narrative outline
-1. start of with the Astoria protest, what DSA did, and why were they protesting. 
-2. Protesting building a new fossil fuel plant in a working class neighborhood
-3. Why was this plant going to be built? Why not build a solar farm or wind farm?
-4. Focus on NYPA capped at 6% green energy and ConEd slow-pace building renewables, or how much they make from still using fossil fuels
-5. Talk about BPRA, what it does, how it benefits us.
-6. Move to our candidates that we are running that can pass BRPA.
-7. Return to the results of the Astoria protest.
-8. Describe our movement in NY, our successes, our potential. Maybe add a video snippet of each candidate?
+RX_CODES: &RX_CODES ['11532142902', '00469072560', '00074364171', '00074334603', '00074105210', '00074105205', '00074244003', '00074347303', '00074228203', '54868327700', '00074366303', '00074368303', '57894019515', '11532142303', '00074364104', '00310070539', '00074969403', '54868282500', '11532333808', '00300228201', '11532145401', '00409362602', '00074366304', '00300364201', '57894019506', '00300368301', '00469062599', '62559068030', '11532142101', '00469012599', '00310070530', '11532145101', '11532145301', '00074105305', '00300210801', '11532145005', '11532366202', '54868450300', '11532366206', '00074377903', '54569452600', '57894015025', '11532142602', '59676060056', '00074364203', '71258002201', '00310070512', '00310070510', '11532145201', '11532333803', '00074210803', '00300366301', '00074364103', '00300361224', '59676060099', ]'00300244001', '11532145000', '11532145105', '76394264203', '00300361228', '59676060012', '00310070595', '57894018412', '54921070502', '62311070501', '57894015012', '52125073601',
+  - '00074364107']
+```

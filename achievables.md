@@ -1,4 +1,5 @@
 # what did i do?
+* implement CRs for several customers
 
 ## dts lambda
 * deploy lambda functions with terraform
